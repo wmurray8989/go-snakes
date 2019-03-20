@@ -2,8 +2,8 @@ package snakes
 
 import "bitbucket.org/wmurray8989/go-snakes/simulation"
 
-// StraightLine goes in a straight line
-func StraightLine(self []simulation.Position, opponent []simulation.Position) simulation.Position {
+// DiagonalLine goes in a diagonal line
+func DiagonalLine(self []simulation.Position, opponent []simulation.Position) simulation.Position {
 	currentPosition := self[len(self)-1]
 
 	nextPosition := simulation.Position{
