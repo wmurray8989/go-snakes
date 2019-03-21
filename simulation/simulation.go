@@ -139,4 +139,13 @@ func (p *Simulation) Render(renderer *sdl.Renderer) {
 			)
 		}
 	}
+
+	// Draw Winning text
+	if p.status == snake1Wins {
+		gfx.StringColor(renderer, 100, 100, "Snake 1 Wins", sdl.Color{R: 0, G: 255, B: 0, A: 255})
+	}
+	if p.status == snake2Wins {
+		gfx.StringColor(renderer, 100, 100, "Snake 2 Wins", sdl.Color{R: 0, G: 255, B: 0, A: 255})
+	}
+
 }
