@@ -32,12 +32,15 @@ func NewSimulation() Simulation {
 
 	// setup colors
 	simulation.p1Color.R = 255
+	simulation.p1Color.A = 255
 
 	simulation.p2Color.B = 255
+	simulation.p2Color.A = 255
 
 	simulation.gridColor.R = 100
 	simulation.gridColor.G = 100
 	simulation.gridColor.B = 100
+	simulation.gridColor.A = 255
 
 	return simulation
 }
@@ -87,30 +90,27 @@ func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
 	}
 }
 
-func renderPlayer(renderer *sdl.Renderer, positions []Position, red uint8, green uint8, blue uint8, cellSize int32) {
+func renderPlayer(renderer *sdl.Renderer, positions []Position, color sdl.Color, cellSize int32) {
 	lastIndex := len(positions) - 1
 	for index, position := range positions {
 		print(position.X)
 		print("-")
 		println(position.Y)
 		if index == lastIndex {
-			gfx.FilledCircleRGBA(
+			gfx.FilledCircleColor(
 				renderer,
 				int32(position.X)*cellSize+cellSize/2,
 				int32(position.Y)*cellSize+cellSize/2,
 				cellSize/2,
-				red,
-				green,
-				blue,
-				255,
+				color,
 			)
 			continue
 		}
 		renderer.SetDrawColor(
-			red,
-			green,
-			blue,
-			255,
+			color.R,
+			color.G,
+			color.B,
+			color.A,
 		)
 		renderer.FillRect(
 			&sdl.Rect{
@@ -130,8 +130,8 @@ func (p *Simulation) Render(renderer *sdl.Renderer) {
 	const cellSize = 20
 
 	// draw players
-	renderPlayer(renderer, p.player1History, 255, 0, 0, cellSize)
-	renderPlayer(renderer, p.player2History, 0, 0, 255, cellSize)
+	renderPlayer(renderer, p.player1History, p.p1Color, cellSize)
+	renderPlayer(renderer, p.player2History, p.p2Color, cellSize)
 
 	// draw grid
 	for x := int32(0); x < sideLength*cellSize; x = x + cellSize {
@@ -142,7 +142,7 @@ func (p *Simulation) Render(renderer *sdl.Renderer) {
 				int32(y),
 				int32(x+cellSize),
 				int32(y+cellSize),
-				sdl.Color{R: 50, G: 50, B: 50, A: 255},
+				p.gridColor,
 			)
 		}
 	}
