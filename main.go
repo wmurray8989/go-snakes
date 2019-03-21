@@ -76,7 +76,7 @@ func run() int {
 		}
 
 		// Logic
-		simulation.Update(snakes.Brownian, snakes.Brownian)
+		simulation.Update(snakes.Brownian, snakes.Seeker)
 
 		// Render
 		renderer.SetDrawColor(0, 0, 0, 255)

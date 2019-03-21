@@ -1,6 +1,7 @@
 package simulation
 
 import (
+	"bitbucket.org/wmurray8989/go-snakes/position"
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -14,8 +15,8 @@ const (
 // Simulation simulates a simulation
 type Simulation struct {
 	status         int
-	player1History []Position
-	player2History []Position
+	player1History []position.Position
+	player2History []position.Position
 	p1Color        sdl.Color
 	p2Color        sdl.Color
 	gridColor      sdl.Color
@@ -26,8 +27,8 @@ func NewSimulation() Simulation {
 	var simulation = Simulation{}
 
 	// setup starting positions
-	simulation.player1History = append(simulation.player1History, Position{24, 24})
-	simulation.player2History = append(simulation.player2History, Position{26, 26})
+	simulation.player1History = append(simulation.player1History, position.Position{24, 24})
+	simulation.player2History = append(simulation.player2History, position.Position{26, 26})
 
 	// setup colors
 	simulation.p1Color.R = 255
@@ -44,57 +45,27 @@ func NewSimulation() Simulation {
 	return simulation
 }
 
-// Position contains an X and Y coordinate
-type Position struct {
-	X int
-	Y int
-}
-
-func isWithinBounds(position Position) bool {
-	return !(position.X < 0 || position.X > 50 || position.Y < 0 || position.Y > 50)
-}
-
-func integerAbs(x int) int {
-	if x < 0 {
-		return x * -1
-	}
-	return x
-}
-
-func distance(a Position, b Position) int {
-	return integerAbs(a.X-b.X) + integerAbs(a.Y-b.Y)
-}
-
-func includesPosition(elements []Position, p Position) bool {
-	for _, element := range elements {
-		if element.X == p.X && element.Y == p.Y {
-			return true
-		}
-	}
-	return false
-}
-
-func moveIsValid(move Position, player []Position, opponent []Position) bool {
+func moveIsValid(move position.Position, self []position.Position, opponent []position.Position) bool {
 	// Is within bounds
-	if !isWithinBounds(move) {
+	if !move.IsWithinBounds() {
 		return false
 	}
 
 	// Distance from last position is 1
-	lastPosition := player[len(player)-1]
-	if distance(move, lastPosition) != 1 {
+	lastPosition := self[len(self)-1]
+	if move.DistanceTo(lastPosition) != 1 {
 		return false
 	}
 
 	// Is unoccupied
-	if includesPosition(player, move) || includesPosition(opponent, move) {
+	if !move.IsUnoccupied(self, opponent) {
 		return false
 	}
 	return true
 }
 
 // Strategy is a function that takes a history of your positions and your opponents positions and returns a next position
-type Strategy func(self []Position, opponent []Position) Position
+type Strategy func(self []position.Position, opponent []position.Position) position.Position
 
 // Update runs the simulation
 func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
@@ -115,7 +86,7 @@ func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
 	p.player2History = append(p.player2History, p2Move)
 }
 
-func renderPlayer(renderer *sdl.Renderer, positions []Position, color sdl.Color, cellSize int32) {
+func renderPlayer(renderer *sdl.Renderer, positions []position.Position, color sdl.Color, cellSize int32) {
 	lastIndex := len(positions) - 1
 	for index, position := range positions {
 		if index == lastIndex {
