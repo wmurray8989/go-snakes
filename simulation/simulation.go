@@ -6,24 +6,38 @@ import (
 )
 
 const (
-	SimulationRunning = 0
-	Snake1Wins        = 1
-	Snake2Wins        = 2
-	SimulationDraw    = 3
+	simulationRunning = 0
+	snake1Wins        = 1
+	snake2Wins        = 2
+	simulationDraw    = 3
 )
 
 // Simulation simulates a simulation
 type Simulation struct {
+	status         int
 	player1History []Position
 	player2History []Position
+	p1Color        sdl.Color
+	p2Color        sdl.Color
+	gridColor      sdl.Color
 }
 
 // NewSimulation creates a Simulation
 func NewSimulation() Simulation {
 	var simulation = Simulation{}
 
-	simulation.player1History = append(simulation.player1History, Position{10, 10})
-	simulation.player2History = append(simulation.player2History, Position{40, 40})
+	// setup starting positions
+	simulation.player1History = append(simulation.player1History, Position{24, 24})
+	simulation.player2History = append(simulation.player2History, Position{26, 26})
+
+	// setup colors
+	simulation.p1Color.R = 255
+
+	simulation.p2Color.B = 255
+
+	simulation.gridColor.R = 100
+	simulation.gridColor.G = 100
+	simulation.gridColor.B = 100
 
 	return simulation
 }
@@ -38,7 +52,11 @@ type Position struct {
 type Strategy func(self []Position, opponent []Position) Position
 
 // Update runs the simulation
-func (p *Simulation) Update(player1 Strategy, player2 Strategy) int {
+func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
+	if p.status != simulationRunning {
+		return
+	}
+
 	p1Loss := false
 	p2Loss := false
 
@@ -57,26 +75,65 @@ func (p *Simulation) Update(player1 Strategy, player2 Strategy) int {
 	p.player2History = append(p.player2History, p2Next)
 
 	if p1Loss && p2Loss {
-		return SimulationDraw
+		p.status = simulationDraw
 	}
 
 	if p1Loss {
-		return Snake2Wins
+		p.status = snake2Wins
 	}
 
 	if p2Loss {
-		return Snake1Wins
+		p.status = snake1Wins
 	}
+}
 
-	return SimulationRunning
+func renderPlayer(renderer *sdl.Renderer, positions []Position, red uint8, green uint8, blue uint8, cellSize int32) {
+	lastIndex := len(positions) - 1
+	for index, position := range positions {
+		print(position.X)
+		print("-")
+		println(position.Y)
+		if index == lastIndex {
+			gfx.FilledCircleRGBA(
+				renderer,
+				int32(position.X)*cellSize+cellSize/2,
+				int32(position.Y)*cellSize+cellSize/2,
+				cellSize/2,
+				red,
+				green,
+				blue,
+				255,
+			)
+			continue
+		}
+		renderer.SetDrawColor(
+			red,
+			green,
+			blue,
+			255,
+		)
+		renderer.FillRect(
+			&sdl.Rect{
+				X: int32(position.X) * cellSize,
+				Y: int32(position.Y) * cellSize,
+				W: cellSize,
+				H: cellSize,
+			},
+		)
+	}
 }
 
 // Render renders the particle system
 func (p *Simulation) Render(renderer *sdl.Renderer) {
 
-	// draw grid
 	const sideLength = 50
 	const cellSize = 20
+
+	// draw players
+	renderPlayer(renderer, p.player1History, 255, 0, 0, cellSize)
+	renderPlayer(renderer, p.player2History, 0, 0, 255, cellSize)
+
+	// draw grid
 	for x := int32(0); x < sideLength*cellSize; x = x + cellSize {
 		for y := int32(0); y < sideLength*cellSize; y = y + cellSize {
 			gfx.RectangleColor(
@@ -88,17 +145,5 @@ func (p *Simulation) Render(renderer *sdl.Renderer) {
 				sdl.Color{R: 50, G: 50, B: 50, A: 255},
 			)
 		}
-	}
-
-	// draw player 1
-	for _, position := range p.player1History {
-		renderer.SetDrawColor(255, 0, 0, 255)
-		renderer.FillRect(&sdl.Rect{X: int32(position.X) * cellSize, Y: int32(position.Y) * cellSize, W: cellSize, H: cellSize})
-	}
-
-	// draw player 2
-	for _, position := range p.player2History {
-		renderer.SetDrawColor(0, 0, 255, 255)
-		renderer.FillRect(&sdl.Rect{X: int32(position.X) * cellSize, Y: int32(position.Y) * cellSize, W: cellSize, H: cellSize})
 	}
 }

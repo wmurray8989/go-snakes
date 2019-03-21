@@ -76,11 +76,7 @@ func run() int {
 		}
 
 		// Logic
-		result := simulation.Update(snakes.StraightLine, snakes.StraightLine)
-		if result != 0 {
-			running = false
-			break
-		}
+		simulation.Update(snakes.Brownian, snakes.Brownian)
 
 		// Render
 		renderer.SetDrawColor(0, 0, 0, 255)
@@ -103,7 +99,7 @@ func run() int {
 
 		renderer.Present()
 
-		sdl.Delay(100)
+		sdl.Delay(1000)
 	}
 
 	return 0
