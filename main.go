@@ -99,7 +99,7 @@ func run() int {
 
 		renderer.Present()
 
-		sdl.Delay(1000)
+		sdl.Delay(100)
 	}
 
 	return 0

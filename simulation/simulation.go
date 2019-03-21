@@ -9,7 +9,6 @@ const (
 	simulationRunning = 0
 	snake1Wins        = 1
 	snake2Wins        = 2
-	simulationDraw    = 3
 )
 
 // Simulation simulates a simulation
@@ -34,13 +33,13 @@ func NewSimulation() Simulation {
 	simulation.p1Color.R = 255
 	simulation.p1Color.A = 255
 
-	simulation.p2Color.B = 255
+	simulation.p2Color.G = 255
 	simulation.p2Color.A = 255
 
 	simulation.gridColor.R = 100
 	simulation.gridColor.G = 100
 	simulation.gridColor.B = 100
-	simulation.gridColor.A = 255
+	simulation.gridColor.A = 100
 
 	return simulation
 }
@@ -49,6 +48,49 @@ func NewSimulation() Simulation {
 type Position struct {
 	X int
 	Y int
+}
+
+func isWithinBounds(position Position) bool {
+	return !(position.X < 0 || position.X > 50 || position.Y < 0 || position.Y > 50)
+}
+
+func integerAbs(x int) int {
+	if x < 0 {
+		return x * -1
+	}
+	return x
+}
+
+func distance(a Position, b Position) int {
+	return integerAbs(a.X-b.X) + integerAbs(a.Y-b.Y)
+}
+
+func includesPosition(elements []Position, p Position) bool {
+	for _, element := range elements {
+		if element.X == p.X && element.Y == p.Y {
+			return true
+		}
+	}
+	return false
+}
+
+func moveIsValid(move Position, player []Position, opponent []Position) bool {
+	// Is within bounds
+	if !isWithinBounds(move) {
+		return false
+	}
+
+	// Distance from last position is 1
+	lastPosition := player[len(player)-1]
+	if distance(move, lastPosition) != 1 {
+		return false
+	}
+
+	// Is unoccupied
+	if includesPosition(player, move) || includesPosition(opponent, move) {
+		return false
+	}
+	return true
 }
 
 // Strategy is a function that takes a history of your positions and your opponents positions and returns a next position
@@ -60,42 +102,22 @@ func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
 		return
 	}
 
-	p1Loss := false
-	p2Loss := false
-
-	p1Next := player1(p.player1History, p.player2History)
-	p2Next := player2(p.player2History, p.player1History)
-
-	if p1Next.X < 0 || p1Next.X > 50 || p1Next.Y < 0 || p1Next.Y > 50 {
-		p1Loss = true
-	}
-
-	if p2Next.X < 0 || p2Next.X > 50 || p2Next.Y < 0 || p2Next.Y > 50 {
-		p2Loss = true
-	}
-
-	p.player1History = append(p.player1History, p1Next)
-	p.player2History = append(p.player2History, p2Next)
-
-	if p1Loss && p2Loss {
-		p.status = simulationDraw
-	}
-
-	if p1Loss {
+	p1Move := player1(p.player1History, p.player2History)
+	if !(moveIsValid(p1Move, p.player1History, p.player2History)) {
 		p.status = snake2Wins
 	}
+	p.player1History = append(p.player1History, p1Move)
 
-	if p2Loss {
+	p2Move := player2(p.player2History, p.player1History)
+	if !(moveIsValid(p2Move, p.player2History, p.player1History)) {
 		p.status = snake1Wins
 	}
+	p.player2History = append(p.player2History, p2Move)
 }
 
 func renderPlayer(renderer *sdl.Renderer, positions []Position, color sdl.Color, cellSize int32) {
 	lastIndex := len(positions) - 1
 	for index, position := range positions {
-		print(position.X)
-		print("-")
-		println(position.Y)
 		if index == lastIndex {
 			gfx.FilledCircleColor(
 				renderer,

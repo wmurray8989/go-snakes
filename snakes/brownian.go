@@ -23,20 +23,25 @@ func positionIsFree(self []simulation.Position, opponent []simulation.Position, 
 	return true
 }
 
+var directions = [4]simulation.Position{
+	{X: 0, Y: 1},
+	{X: 0, Y: -1},
+	{X: 1, Y: 0},
+	{X: -1, Y: 0},
+}
+
 func getAvailableMoves(self []simulation.Position, opponent []simulation.Position, currentPosition simulation.Position) []simulation.Position {
 	availableMoves := []simulation.Position{}
 
-	for x := -1; x <= 1; x++ {
-		for y := -1; y <= 1; y++ {
-			if positionIsFree(self, opponent, simulation.Position{
-				X: currentPosition.X + x,
-				Y: currentPosition.Y + y,
-			}) {
-				availableMoves = append(availableMoves, simulation.Position{
-					X: currentPosition.X + x,
-					Y: currentPosition.Y + y,
-				})
-			}
+	for _, direction := range directions {
+		if positionIsFree(self, opponent, simulation.Position{
+			X: currentPosition.X + direction.X,
+			Y: currentPosition.Y + direction.Y,
+		}) {
+			availableMoves = append(availableMoves, simulation.Position{
+				X: currentPosition.X + direction.X,
+				Y: currentPosition.Y + direction.Y,
+			})
 		}
 	}
 
