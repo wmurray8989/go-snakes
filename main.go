@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
+	"time"
 
 	"bitbucket.org/wmurray8989/go-snakes/simulation"
 	"bitbucket.org/wmurray8989/go-snakes/snakes"
-	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -48,7 +47,8 @@ func run() int {
 
 	fullscreen := false
 	running := true
-	var lastTime = sdl.GetTicks()
+	lastTime := time.Time{}
+	ticksPerSecond := 10
 	for running {
 
 		// Events
@@ -75,20 +75,17 @@ func run() int {
 			}
 		}
 
-		// Logic
-		simulation.Update(snakes.Brownian, snakes.Seeker)
+		if time.Since(lastTime) > (time.Second / time.Duration(ticksPerSecond)) {
+			// Logic
+			simulation.Update(snakes.Brownian, snakes.Seeker)
 
-		// Render
-		renderer.SetDrawColor(0, 0, 0, 255)
-		renderer.Clear()
-		simulation.Render(renderer)
+			// Render
+			renderer.SetDrawColor(0, 0, 0, 255)
+			renderer.Clear()
+			simulation.Render(renderer)
 
-		// FPS
-		var nowTime = sdl.GetTicks()
-		if nowTime != lastTime {
-			gfx.StringColor(renderer, 16, 16, "FPS: "+strconv.FormatUint(uint64(1000/(nowTime-lastTime)), 10), color["green"])
+			lastTime = time.Now().UTC()
 		}
-		lastTime = nowTime
 
 		renderer.SetViewport(&sdl.Rect{
 			X: 0,
@@ -99,7 +96,7 @@ func run() int {
 
 		renderer.Present()
 
-		sdl.Delay(100)
+		sdl.Delay(1)
 	}
 
 	return 0
