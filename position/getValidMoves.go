@@ -15,7 +15,7 @@ func (p Position) GetValidMoves(self []Position, opponent []Position) []Position
 			X: p.X + direction.X,
 			Y: p.Y + direction.Y,
 		}
-		if move.IsUnoccupied(self, opponent) {
+		if move.IsValidMove(self, opponent) {
 			availableMoves = append(availableMoves, move)
 		}
 	}

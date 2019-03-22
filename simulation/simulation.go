@@ -45,25 +45,6 @@ func NewSimulation() Simulation {
 	return simulation
 }
 
-func moveIsValid(move position.Position, self []position.Position, opponent []position.Position) bool {
-	// Is within bounds
-	if !move.IsWithinBounds() {
-		return false
-	}
-
-	// Distance from last position is 1
-	lastPosition := self[len(self)-1]
-	if move.DistanceTo(lastPosition) != 1 {
-		return false
-	}
-
-	// Is unoccupied
-	if !move.IsUnoccupied(self, opponent) {
-		return false
-	}
-	return true
-}
-
 // Strategy is a function that takes a history of your positions and your opponents positions and returns a next position
 type Strategy func(self []position.Position, opponent []position.Position) position.Position
 
@@ -74,13 +55,13 @@ func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
 	}
 
 	p1Move := player1(p.player1History, p.player2History)
-	if !(moveIsValid(p1Move, p.player1History, p.player2History)) {
+	if !(p1Move.IsValidMove(p.player1History, p.player2History)) {
 		p.status = snake2Wins
 	}
 	p.player1History = append(p.player1History, p1Move)
 
 	p2Move := player2(p.player2History, p.player1History)
-	if !(moveIsValid(p2Move, p.player2History, p.player1History)) {
+	if !(p2Move.IsValidMove(p.player2History, p.player1History)) {
 		p.status = snake1Wins
 	}
 	p.player2History = append(p.player2History, p2Move)
