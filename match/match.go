@@ -1,4 +1,4 @@
-package simulation
+package match
 
 import (
 	"bitbucket.org/wmurray8989/go-snakes/position"
@@ -7,13 +7,13 @@ import (
 )
 
 const (
-	simulationRunning = 0
-	snake1Wins        = 1
-	snake2Wins        = 2
+	matchRunning = 0
+	snake1Wins   = 1
+	snake2Wins   = 2
 )
 
-// Simulation simulates a simulation
-type Simulation struct {
+// Match simulates a match
+type Match struct {
 	status         int
 	player1        Strategy
 	player2        Strategy
@@ -27,36 +27,36 @@ type Simulation struct {
 // Strategy is a function that takes a history of your positions and your opponents positions and returns a next position
 type Strategy func(self []position.Position, opponent []position.Position) position.Position
 
-// NewSimulation creates a Simulation
-func NewSimulation(player1 Strategy, player2 Strategy) Simulation {
-	var simulation = Simulation{}
+// NewMatch creates a Match
+func NewMatch(player1 Strategy, player2 Strategy) Match {
+	var match = Match{}
 
 	// setup strategies
-	simulation.player1 = player1
-	simulation.player2 = player2
+	match.player1 = player1
+	match.player2 = player2
 
 	// setup starting positions
-	simulation.player1History = append(simulation.player1History, position.Position{X: 24, Y: 24})
-	simulation.player2History = append(simulation.player2History, position.Position{X: 26, Y: 26})
+	match.player1History = append(match.player1History, position.Position{X: 24, Y: 24})
+	match.player2History = append(match.player2History, position.Position{X: 26, Y: 26})
 
 	// setup colors
-	simulation.p1Color.R = 255
-	simulation.p1Color.A = 255
+	match.p1Color.R = 255
+	match.p1Color.A = 255
 
-	simulation.p2Color.G = 255
-	simulation.p2Color.A = 255
+	match.p2Color.G = 255
+	match.p2Color.A = 255
 
-	simulation.gridColor.R = 100
-	simulation.gridColor.G = 100
-	simulation.gridColor.B = 100
-	simulation.gridColor.A = 100
+	match.gridColor.R = 100
+	match.gridColor.G = 100
+	match.gridColor.B = 100
+	match.gridColor.A = 100
 
-	return simulation
+	return match
 }
 
-// Update runs the simulation
-func (p *Simulation) Update() {
-	if p.status != simulationRunning {
+// Update runs the match
+func (p *Match) Update() {
+	if p.status != matchRunning {
 		return
 	}
 
@@ -104,7 +104,7 @@ func renderPlayer(renderer *sdl.Renderer, positions []position.Position, color s
 }
 
 // Render renders the particle system
-func (p *Simulation) Render(renderer *sdl.Renderer) {
+func (p *Match) Render(renderer *sdl.Renderer) {
 
 	const sideLength = 50
 	const cellSize = 20
