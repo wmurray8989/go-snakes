@@ -9,7 +9,7 @@ import (
 func (p *Match) Render(renderer *sdl.Renderer) {
 
 	const sideLength = 50
-	const cellSize = 20
+	const cellSize = 10
 
 	// draw players
 	renderPlayer(renderer, p.player1History, p.p1Color, cellSize)
@@ -31,10 +31,10 @@ func (p *Match) Render(renderer *sdl.Renderer) {
 
 	// Draw Winning text
 	if p.status == snake1Wins {
-		gfx.StringColor(renderer, 100, 100, "Snake 1 Wins", p.p1Color)
+		gfx.StringColor(renderer, 200, 550, "Snake 1 Wins", p.p1Color)
 	}
 	if p.status == snake2Wins {
-		gfx.StringColor(renderer, 100, 100, "Snake 2 Wins", p.p2Color)
+		gfx.StringColor(renderer, 200, 550, "Snake 2 Wins", p.p2Color)
 	}
 
 }

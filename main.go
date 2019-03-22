@@ -5,13 +5,13 @@ import (
 	"os"
 	"time"
 
-	"bitbucket.org/wmurray8989/go-snakes/match"
-	"bitbucket.org/wmurray8989/go-snakes/snakes"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/match"
+	"github.com/wmurray8989/go-snakes/snakes"
 )
 
 var winTitle = "Go Snakes"
-var winWidth, winHeight int32 = 1920, 1080
+var winWidth, winHeight int32 = 1000, 700
 
 var color = map[string]sdl.Color{
 	"red":   sdl.Color{R: 255, G: 0, B: 0, A: 255},
@@ -48,7 +48,7 @@ func run() int {
 	fullscreen := false
 	running := true
 	lastTime := time.Time{}
-	ticksPerSecond := 10
+	ticksPerSecond := 20
 	for running {
 
 		// Events
@@ -86,6 +86,7 @@ func run() int {
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
 			activeMatch.Render(renderer)
+			renderer.Present()
 
 			lastTime = time.Now().UTC()
 		}
@@ -97,9 +98,7 @@ func run() int {
 			H: winHeight,
 		})
 
-		renderer.Present()
-
-		sdl.Delay(5)
+		sdl.Delay(10)
 	}
 
 	return 0

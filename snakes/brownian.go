@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"bitbucket.org/wmurray8989/go-snakes/position"
+	"github.com/wmurray8989/go-snakes/position"
 )
 
 // Brownian moves randomly avoiding self collisions

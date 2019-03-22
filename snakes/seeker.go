@@ -3,7 +3,7 @@ package snakes
 import (
 	"sort"
 
-	"bitbucket.org/wmurray8989/go-snakes/position"
+	"github.com/wmurray8989/go-snakes/position"
 )
 
 // Seeker moves directly towards opponent

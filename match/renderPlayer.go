@@ -1,7 +1,7 @@
 package match
 
 import (
-	"bitbucket.org/wmurray8989/go-snakes/position"
+	"github.com/wmurray8989/go-snakes/position"
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
 )
