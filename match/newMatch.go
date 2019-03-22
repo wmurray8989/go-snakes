@@ -1,6 +1,11 @@
 package match
 
-import "bitbucket.org/wmurray8989/go-snakes/position"
+import (
+	"math/rand"
+	"time"
+
+	"bitbucket.org/wmurray8989/go-snakes/position"
+)
 
 // NewMatch creates a Match
 func NewMatch(player1 Strategy, player2 Strategy) Match {
@@ -11,8 +16,9 @@ func NewMatch(player1 Strategy, player2 Strategy) Match {
 	match.player2 = player2
 
 	// setup starting positions
-	match.player1History = append(match.player1History, position.Position{X: 24, Y: 24})
-	match.player2History = append(match.player2History, position.Position{X: 26, Y: 26})
+	rand.Seed(time.Now().UTC().UnixNano())
+	match.player1History = append(match.player1History, position.Position{X: rand.Intn(50), Y: rand.Intn(50)})
+	match.player2History = append(match.player2History, position.Position{X: rand.Intn(50), Y: rand.Intn(50)})
 
 	// setup colors
 	match.p1Color.R = 255
