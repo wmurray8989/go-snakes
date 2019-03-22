@@ -15,6 +15,8 @@ const (
 // Simulation simulates a simulation
 type Simulation struct {
 	status         int
+	player1        Strategy
+	player2        Strategy
 	player1History []position.Position
 	player2History []position.Position
 	p1Color        sdl.Color
@@ -22,13 +24,20 @@ type Simulation struct {
 	gridColor      sdl.Color
 }
 
+// Strategy is a function that takes a history of your positions and your opponents positions and returns a next position
+type Strategy func(self []position.Position, opponent []position.Position) position.Position
+
 // NewSimulation creates a Simulation
-func NewSimulation() Simulation {
+func NewSimulation(player1 Strategy, player2 Strategy) Simulation {
 	var simulation = Simulation{}
 
+	// setup strategies
+	simulation.player1 = player1
+	simulation.player2 = player2
+
 	// setup starting positions
-	simulation.player1History = append(simulation.player1History, position.Position{24, 24})
-	simulation.player2History = append(simulation.player2History, position.Position{26, 26})
+	simulation.player1History = append(simulation.player1History, position.Position{X: 24, Y: 24})
+	simulation.player2History = append(simulation.player2History, position.Position{X: 26, Y: 26})
 
 	// setup colors
 	simulation.p1Color.R = 255
@@ -45,22 +54,19 @@ func NewSimulation() Simulation {
 	return simulation
 }
 
-// Strategy is a function that takes a history of your positions and your opponents positions and returns a next position
-type Strategy func(self []position.Position, opponent []position.Position) position.Position
-
 // Update runs the simulation
-func (p *Simulation) Update(player1 Strategy, player2 Strategy) {
+func (p *Simulation) Update() {
 	if p.status != simulationRunning {
 		return
 	}
 
-	p1Move := player1(p.player1History, p.player2History)
+	p1Move := p.player1(p.player1History, p.player2History)
 	if !(p1Move.IsValidMove(p.player1History, p.player2History)) {
 		p.status = snake2Wins
 	}
 	p.player1History = append(p.player1History, p1Move)
 
-	p2Move := player2(p.player2History, p.player1History)
+	p2Move := p.player2(p.player2History, p.player1History)
 	if !(p2Move.IsValidMove(p.player2History, p.player1History)) {
 		p.status = snake1Wins
 	}
@@ -123,10 +129,10 @@ func (p *Simulation) Render(renderer *sdl.Renderer) {
 
 	// Draw Winning text
 	if p.status == snake1Wins {
-		gfx.StringColor(renderer, 100, 100, "Snake 1 Wins", sdl.Color{R: 0, G: 255, B: 0, A: 255})
+		gfx.StringColor(renderer, 100, 100, "Snake 1 Wins", p.p1Color)
 	}
 	if p.status == snake2Wins {
-		gfx.StringColor(renderer, 100, 100, "Snake 2 Wins", sdl.Color{R: 0, G: 255, B: 0, A: 255})
+		gfx.StringColor(renderer, 100, 100, "Snake 2 Wins", p.p2Color)
 	}
 
 }

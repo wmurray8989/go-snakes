@@ -43,7 +43,7 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	var simulation = simulation.NewSimulation()
+	var activeSimulation = simulation.NewSimulation(snakes.Brownian, snakes.Seeker)
 
 	fullscreen := false
 	running := true
@@ -62,6 +62,9 @@ func run() int {
 					running = false
 				case sdl.K_ESCAPE:
 					running = false
+				case sdl.K_r:
+					activeSimulation = simulation.NewSimulation(snakes.Brownian, snakes.Seeker)
+					lastTime = time.Time{}
 				case sdl.K_f:
 					if t.State == sdl.PRESSED {
 						if fullscreen {
@@ -77,12 +80,12 @@ func run() int {
 
 		if time.Since(lastTime) > (time.Second / time.Duration(ticksPerSecond)) {
 			// Logic
-			simulation.Update(snakes.Brownian, snakes.Seeker)
+			activeSimulation.Update()
 
 			// Render
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
-			simulation.Render(renderer)
+			activeSimulation.Render(renderer)
 
 			lastTime = time.Now().UTC()
 		}
