@@ -99,7 +99,7 @@ func run() int {
 
 		renderer.Present()
 
-		sdl.Delay(1)
+		sdl.Delay(5)
 	}
 
 	return 0
