@@ -10,9 +10,9 @@ func (p *Round) Update() {
 	defer func() {
 		if r := recover(); r != nil {
 			if p.playerTurn {
-				p.status = WinnerSnake1
-			} else {
 				p.status = WinnerSnake2
+			} else {
+				p.status = WinnerSnake1
 			}
 		}
 	}()
