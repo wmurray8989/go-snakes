@@ -49,12 +49,22 @@ func run() int {
 		G: 0,
 		B: 0,
 		A: 255,
+	}, sdl.Color{
+		R: 255,
+		G: 255,
+		B: 255,
+		A: 255,
 	})
 
 	player2 := player.NewPlayer(snakes.SpiralOut, sdl.Color{
 		R: 0,
 		G: 255,
 		B: 0,
+		A: 255,
+	}, sdl.Color{
+		R: 255,
+		G: 255,
+		B: 255,
 		A: 255,
 	})
 

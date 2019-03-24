@@ -1,6 +1,9 @@
 package player
 
 import (
+	"log"
+	"time"
+
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/wmurray8989/go-snakes/position"
@@ -8,6 +11,8 @@ import (
 
 // Render renders the match
 func (p *Player) Render(renderer *sdl.Renderer) {
+	start := time.Now()
+
 	const sideLength = 50
 	const cellSize = 10
 
@@ -25,15 +30,15 @@ func (p *Player) Render(renderer *sdl.Renderer) {
 				int32(position.X)*cellSize+cellSize/2,
 				int32(position.Y)*cellSize+cellSize/2,
 				cellSize/2,
-				p.color,
+				p.colorPrimary,
 			)
 			continue
 		}
 		renderer.SetDrawColor(
-			p.color.R,
-			p.color.G,
-			p.color.B,
-			p.color.A,
+			p.colorPrimary.R,
+			p.colorPrimary.G,
+			p.colorPrimary.B,
+			p.colorPrimary.A,
 		)
 		renderer.FillRect(
 			&sdl.Rect{
@@ -44,4 +49,7 @@ func (p *Player) Render(renderer *sdl.Renderer) {
 			},
 		)
 	}
+
+	elapsed := time.Since(start)
+	log.Printf("Render took %s", elapsed)
 }

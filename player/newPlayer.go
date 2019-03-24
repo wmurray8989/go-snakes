@@ -3,9 +3,10 @@ package player
 import "github.com/veandco/go-sdl2/sdl"
 
 // NewPlayer creates a Player
-func NewPlayer(strategy Strategy, color sdl.Color) Player {
+func NewPlayer(strategy Strategy, colorPrimary sdl.Color, colorSecondary sdl.Color) Player {
 	return Player{
-		strategy: strategy,
-		color:    color,
+		strategy:       strategy,
+		colorPrimary:   colorPrimary,
+		colorSecondary: colorSecondary,
 	}
 }
