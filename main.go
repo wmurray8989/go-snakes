@@ -63,8 +63,10 @@ func run() int {
 				case sdl.K_ESCAPE:
 					running = false
 				case sdl.K_r:
-					activeRound = round.NewRound(snakes.Panic10, snakes.SpiralOut)
-					lastTime = time.Time{}
+					if t.State == sdl.PRESSED {
+						activeRound = round.NewRound(snakes.Panic10, snakes.SpiralOut)
+						lastTime = time.Time{}
+					}
 				case sdl.K_f:
 					if t.State == sdl.PRESSED {
 						if fullscreen {
