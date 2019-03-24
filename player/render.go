@@ -1,9 +1,6 @@
 package player
 
 import (
-	"log"
-	"time"
-
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/wmurray8989/go-snakes/position"
@@ -11,8 +8,6 @@ import (
 
 // Render renders the match
 func (p *Player) Render(renderer *sdl.Renderer) {
-	start := time.Now()
-
 	const sideLength = 50
 	const cellSize = 10
 
@@ -22,34 +17,50 @@ func (p *Player) Render(renderer *sdl.Renderer) {
 		positions[i].Y = 49 - position.Y
 	}
 
-	lastIndex := len(positions) - 1
+	// position length
+	positionLength := len(positions)
+
+	// generate points and rects from positions
+	rects := make([]sdl.Rect, positionLength)
+	points := make([]sdl.Point, positionLength)
 	for index, position := range positions {
-		if index == lastIndex {
-			gfx.FilledCircleColor(
-				renderer,
-				int32(position.X)*cellSize+cellSize/2,
-				int32(position.Y)*cellSize+cellSize/2,
-				cellSize/2,
-				p.colorPrimary,
-			)
-			continue
+		rects[index] = sdl.Rect{
+			X: int32(position.X) * cellSize,
+			Y: int32(position.Y) * cellSize,
+			W: cellSize,
+			H: cellSize,
 		}
-		renderer.SetDrawColor(
-			p.colorPrimary.R,
-			p.colorPrimary.G,
-			p.colorPrimary.B,
-			p.colorPrimary.A,
-		)
-		renderer.FillRect(
-			&sdl.Rect{
-				X: int32(position.X) * cellSize,
-				Y: int32(position.Y) * cellSize,
-				W: cellSize,
-				H: cellSize,
-			},
-		)
+		points[index] = sdl.Point{
+			X: (int32(position.X) * cellSize) + cellSize/2,
+			Y: (int32(position.Y) * cellSize) + cellSize/2,
+		}
 	}
 
-	elapsed := time.Since(start)
-	log.Printf("Render took %s", elapsed)
+	// draw main body of snake
+	renderer.SetDrawColor(
+		p.colorPrimary.R,
+		p.colorPrimary.G,
+		p.colorPrimary.B,
+		p.colorPrimary.A,
+	)
+	renderer.FillRects(rects)
+
+	// draw snake spine
+	renderer.SetDrawColor(
+		p.colorSecondary.R,
+		p.colorSecondary.G,
+		p.colorSecondary.B,
+		p.colorSecondary.A,
+	)
+	renderer.DrawLines(points)
+
+	// draw snake head
+	lastPosition := positions[positionLength-1]
+	gfx.FilledCircleColor(
+		renderer,
+		int32(lastPosition.X)*cellSize+cellSize/2,
+		int32(lastPosition.Y)*cellSize+cellSize/2,
+		cellSize/2,
+		p.colorSecondary,
+	)
 }
