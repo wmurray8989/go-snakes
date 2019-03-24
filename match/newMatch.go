@@ -17,8 +17,8 @@ func NewMatch(player1 Strategy, player2 Strategy) Match {
 
 	// setup starting positions
 	rand.Seed(time.Now().UTC().UnixNano())
-	match.player1History = append(match.player1History, position.Position{X: rand.Intn(50), Y: rand.Intn(50)})
-	match.player2History = append(match.player2History, position.Position{X: rand.Intn(50), Y: rand.Intn(50)})
+	match.player1History = append(match.player1History, position.Position{X: rand.Intn(49), Y: rand.Intn(49)})
+	match.player2History = append(match.player2History, position.Position{X: rand.Intn(49), Y: rand.Intn(49)})
 
 	// setup colors
 	match.p1Color.R = 255
