@@ -5,3 +5,9 @@ type Position struct {
 	X int
 	Y int
 }
+
+// Null is a null position
+var Null = Position{
+	X: -1,
+	Y: -1,
+}

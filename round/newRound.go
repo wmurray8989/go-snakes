@@ -2,13 +2,12 @@ package round
 
 import (
 	"math/rand"
-	"time"
 
-	"github.com/wmurray8989/go-snakes/position"
+	"github.com/wmurray8989/go-snakes/player"
 )
 
 // NewRound creates a Round
-func NewRound(player1 Strategy, player2 Strategy) Round {
+func NewRound(player1 player.Player, player2 player.Player) Round {
 	var round = Round{}
 
 	// random starting player
@@ -19,22 +18,15 @@ func NewRound(player1 Strategy, player2 Strategy) Round {
 		round.playerTurn = true
 	}
 
-	// setup strategies
+	// setup players
 	round.player1 = player1
 	round.player2 = player2
 
 	// setup starting positions
-	rand.Seed(time.Now().UTC().UnixNano())
-	round.player1History = append(round.player1History, position.Position{X: rand.Intn(49), Y: rand.Intn(49)})
-	round.player2History = append(round.player2History, position.Position{X: rand.Intn(49), Y: rand.Intn(49)})
+	round.player1.StartMove()
+	round.player2.StartMove()
 
 	// setup colors
-	round.p1Color.R = 255
-	round.p1Color.A = 255
-
-	round.p2Color.G = 255
-	round.p2Color.A = 255
-
 	round.gridColor.R = 100
 	round.gridColor.G = 100
 	round.gridColor.B = 100

@@ -1,4 +1,4 @@
-package round
+package player
 
 import "github.com/wmurray8989/go-snakes/position"
 

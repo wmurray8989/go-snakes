@@ -1,15 +1,21 @@
 package snakes
 
 import (
+	"math/rand"
+	"time"
+
 	"github.com/wmurray8989/go-snakes/direction"
 	"github.com/wmurray8989/go-snakes/position"
 )
 
-// Panic10 moves up then panics on the 10th move
-func Panic10(self []position.Position, opponent []position.Position) position.Position {
+// Panicker moves up and can randomly panick
+func Panicker(self []position.Position, opponent []position.Position) position.Position {
 	currentPosition := self[len(self)-1]
 
-	if len(self) >= 10 {
+	rand.Seed(time.Now().UTC().UnixNano())
+	randomDigit := rand.Intn(10)
+
+	if randomDigit == 9 {
 		panic("I'm Panicking!!!")
 	}
 
