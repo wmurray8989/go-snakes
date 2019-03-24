@@ -7,8 +7,8 @@ import (
 	"github.com/wmurray8989/go-snakes/position"
 )
 
-// Brownian moves randomly avoiding self collisions
-func Brownian(self []position.Position, opponent []position.Position) position.Position {
+// Random moves randomly avoiding self collisions
+func Random(self []position.Position, opponent []position.Position) position.Position {
 	currentPosition := self[len(self)-1]
 
 	validMoves := currentPosition.GetValidMoves(self, opponent)
