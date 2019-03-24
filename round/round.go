@@ -5,15 +5,21 @@ import (
 	"github.com/wmurray8989/go-snakes/position"
 )
 
-const (
-	roundRunning = 0
-	snake1Wins   = 1
-	snake2Wins   = 2
-)
+// Status is the current state of the round
+type Status int
+
+// InProgress is the state when the round has no winners
+const InProgress Status = 0
+
+// WinnerSnake1 is the state when snake 1 has won the round
+const WinnerSnake1 Status = 1
+
+// WinnerSnake2 is the state when snake 2 has won the round
+const WinnerSnake2 Status = 2
 
 // Round simulates a round
 type Round struct {
-	status         int
+	status         Status
 	playerTurn     bool
 	player1        Strategy
 	player2        Strategy

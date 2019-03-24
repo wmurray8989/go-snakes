@@ -5,7 +5,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-// Render renders the particle system
+// Render renders the round
 func (p *Round) Render(renderer *sdl.Renderer) {
 
 	const sideLength = 50
@@ -28,13 +28,4 @@ func (p *Round) Render(renderer *sdl.Renderer) {
 			)
 		}
 	}
-
-	// Draw Winning text
-	if p.status == snake1Wins {
-		gfx.StringColor(renderer, 200, 550, "Snake 1 Wins", p.p1Color)
-	}
-	if p.status == snake2Wins {
-		gfx.StringColor(renderer, 200, 550, "Snake 2 Wins", p.p2Color)
-	}
-
 }
