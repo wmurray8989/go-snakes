@@ -7,6 +7,8 @@ import (
 
 // Player is a participant in a match
 type Player struct {
+	name           string
+	author         string
 	strategy       Strategy
 	moves          []position.Position
 	colorPrimary   sdl.Color

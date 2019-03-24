@@ -37,7 +37,7 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	player1 := player.NewPlayer(snakes.SpiralIn, sdl.Color{
+	player1 := player.NewPlayer("Spiral In", "NULL", snakes.SpiralIn, sdl.Color{
 		R: 255,
 		G: 0,
 		B: 0,
@@ -49,7 +49,7 @@ func run() int {
 		A: 255,
 	})
 
-	player2 := player.NewPlayer(snakes.SpiralOut, sdl.Color{
+	player2 := player.NewPlayer("Spiral Out", "NULL", snakes.SpiralOut, sdl.Color{
 		R: 0,
 		G: 255,
 		B: 0,
