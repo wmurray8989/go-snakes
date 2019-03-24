@@ -11,6 +11,14 @@ import (
 func NewMatch(player1 Strategy, player2 Strategy) Match {
 	var match = Match{}
 
+	// random starting player
+	startingPlayer := rand.Intn(1)
+	if startingPlayer == 0 {
+		match.playerTurn = false
+	} else {
+		match.playerTurn = true
+	}
+
 	// setup strategies
 	match.player1 = player1
 	match.player2 = player2

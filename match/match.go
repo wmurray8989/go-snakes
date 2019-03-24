@@ -1,8 +1,8 @@
 package match
 
 import (
-	"github.com/wmurray8989/go-snakes/position"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/position"
 )
 
 const (
@@ -14,6 +14,7 @@ const (
 // Match simulates a match
 type Match struct {
 	status         int
+	playerTurn     bool
 	player1        Strategy
 	player2        Strategy
 	player1History []position.Position
