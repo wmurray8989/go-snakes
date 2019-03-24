@@ -43,12 +43,12 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	var activeMatch = match.NewMatch(snakes.Brownian, snakes.Seeker)
+	var activeMatch = match.NewMatch(snakes.Panic10, snakes.SpiralOut)
 
 	fullscreen := false
 	running := true
 	lastTime := time.Time{}
-	ticksPerSecond := 20
+	ticksPerSecond := 5
 	for running {
 
 		// Events
@@ -63,7 +63,7 @@ func run() int {
 				case sdl.K_ESCAPE:
 					running = false
 				case sdl.K_r:
-					activeMatch = match.NewMatch(snakes.Brownian, snakes.Seeker)
+					activeMatch = match.NewMatch(snakes.Panic10, snakes.SpiralOut)
 					lastTime = time.Time{}
 				case sdl.K_f:
 					if t.State == sdl.PRESSED {

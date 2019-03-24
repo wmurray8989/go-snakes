@@ -6,6 +6,17 @@ func (p *Match) Update() {
 		return
 	}
 
+	// Handle panics
+	defer func() {
+		if r := recover(); r != nil {
+			if p.playerTurn {
+				p.status = snake2Wins
+			} else {
+				p.status = snake1Wins
+			}
+		}
+	}()
+
 	if p.playerTurn {
 		p1Move := p.player1(p.player1History, p.player2History)
 		if !(p1Move.IsValidMove(p.player1History, p.player2History)) {
@@ -19,5 +30,6 @@ func (p *Match) Update() {
 		}
 		p.player2History = append(p.player2History, p2Move)
 	}
+
 	p.playerTurn = !p.playerTurn
 }
