@@ -1,12 +1,18 @@
 package match
 
 import (
-	"github.com/wmurray8989/go-snakes/position"
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/position"
 )
 
-func renderPlayer(renderer *sdl.Renderer, positions []position.Position, color sdl.Color, cellSize int32) {
+func renderPlayer(renderer *sdl.Renderer, uninvertedPositions []position.Position, color sdl.Color, cellSize int32) {
+	// invert y positions
+	positions := append([]position.Position(nil), uninvertedPositions...)
+	for i, position := range positions {
+		positions[i].Y = 49 - position.Y
+	}
+
 	lastIndex := len(positions) - 1
 	for index, position := range positions {
 		if index == lastIndex {
