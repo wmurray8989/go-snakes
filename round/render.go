@@ -1,4 +1,4 @@
-package match
+package round
 
 import (
 	"github.com/veandco/go-sdl2/gfx"
@@ -6,7 +6,7 @@ import (
 )
 
 // Render renders the particle system
-func (p *Match) Render(renderer *sdl.Renderer) {
+func (p *Round) Render(renderer *sdl.Renderer) {
 
 	const sideLength = 50
 	const cellSize = 10

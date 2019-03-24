@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
-	"github.com/wmurray8989/go-snakes/match"
+	"github.com/wmurray8989/go-snakes/round"
 	"github.com/wmurray8989/go-snakes/snakes"
 )
 
@@ -43,7 +43,7 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	var activeMatch = match.NewMatch(snakes.Panic10, snakes.SpiralOut)
+	var activeRound = round.NewRound(snakes.Panic10, snakes.SpiralOut)
 
 	fullscreen := false
 	running := true
@@ -63,7 +63,7 @@ func run() int {
 				case sdl.K_ESCAPE:
 					running = false
 				case sdl.K_r:
-					activeMatch = match.NewMatch(snakes.Panic10, snakes.SpiralOut)
+					activeRound = round.NewRound(snakes.Panic10, snakes.SpiralOut)
 					lastTime = time.Time{}
 				case sdl.K_f:
 					if t.State == sdl.PRESSED {
@@ -80,12 +80,12 @@ func run() int {
 
 		if time.Since(lastTime) > (time.Second / time.Duration(ticksPerSecond)) {
 			// Logic
-			activeMatch.Update()
+			activeRound.Update()
 
 			// Render
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
-			activeMatch.Render(renderer)
+			activeRound.Render(renderer)
 			renderer.Present()
 
 			lastTime = time.Now().UTC()

@@ -1,8 +1,8 @@
-package match
+package round
 
-// Update runs the match
-func (p *Match) Update() {
-	if p.status != matchRunning {
+// Update runs the round
+func (p *Round) Update() {
+	if p.status != roundRunning {
 		return
 	}
 

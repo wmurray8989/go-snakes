@@ -1,4 +1,4 @@
-package match
+package round
 
 import (
 	"github.com/veandco/go-sdl2/sdl"
@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	matchRunning = 0
+	roundRunning = 0
 	snake1Wins   = 1
 	snake2Wins   = 2
 )
 
-// Match simulates a match
-type Match struct {
+// Round simulates a round
+type Round struct {
 	status         int
 	playerTurn     bool
 	player1        Strategy
