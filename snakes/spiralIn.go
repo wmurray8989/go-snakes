@@ -1,6 +1,7 @@
 package snakes
 
 import (
+	"github.com/wmurray8989/go-snakes/direction"
 	"github.com/wmurray8989/go-snakes/position"
 )
 
@@ -8,12 +9,43 @@ import (
 func SpiralIn(self []position.Position, opponent []position.Position) position.Position {
 	currentPosition := self[len(self)-1]
 
-	// If this is the first move, go up
+	// If this is the first move, go towards the closest wall
 	if len(self) == 1 {
-		return position.Position{
+		upProjection := position.Position{
 			X: currentPosition.X,
-			Y: currentPosition.Y + 1,
+			Y: 49,
 		}
+		rightProjection := position.Position{
+			X: 49,
+			Y: currentPosition.Y,
+		}
+		downProjection := position.Position{
+			X: currentPosition.X,
+			Y: 0,
+		}
+		leftProjection := position.Position{
+			X: 0,
+			Y: currentPosition.Y,
+		}
+
+		distanceUp := currentPosition.DistanceTo(upProjection)
+		distanceRight := currentPosition.DistanceTo(rightProjection)
+		distanceDown := currentPosition.DistanceTo(downProjection)
+		distanceLeft := currentPosition.DistanceTo(leftProjection)
+
+		if distanceUp <= distanceDown && distanceUp <= distanceLeft && distanceUp <= distanceRight {
+			return currentPosition.DirectionAdd(direction.Up)
+		}
+
+		if distanceRight <= distanceDown && distanceRight <= distanceLeft {
+			return currentPosition.DirectionAdd(direction.Right)
+		}
+
+		if distanceDown <= distanceLeft {
+			return currentPosition.DirectionAdd(direction.Down)
+		}
+
+		return currentPosition.DirectionAdd(direction.Left)
 	}
 
 	// get current direction
