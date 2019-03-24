@@ -14,13 +14,6 @@ import (
 var winTitle = "Go Snakes"
 var winWidth, winHeight int32 = 1000, 700
 
-var color = map[string]sdl.Color{
-	"red":   sdl.Color{R: 255, G: 0, B: 0, A: 255},
-	"green": sdl.Color{R: 0, G: 255, B: 0, A: 255},
-	"blue":  sdl.Color{R: 0, G: 0, B: 255, A: 255},
-	"black": sdl.Color{R: 0, G: 0, B: 0},
-}
-
 func run() int {
 	var window *sdl.Window
 	var renderer *sdl.Renderer
