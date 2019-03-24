@@ -2,6 +2,9 @@ package player
 
 import (
 	"errors"
+	"time"
+
+	"github.com/wmurray8989/go-snakes/position"
 )
 
 const sideLength = 50
@@ -16,18 +19,38 @@ func (p *Player) NextMove(opponent Player) (err error) {
 		return errors.New("No Valid Moves")
 	}
 
-	// Handle panics
-	defer func() {
-		if r := recover(); r != nil {
-			err = errors.New("Panicked")
-		}
+	// timeout after 1 second
+	timeout := make(chan bool)
+	go func() {
+		time.Sleep(1 * time.Second)
+		timeout <- true
 	}()
 
-	move := p.strategy(p.moves, opponent.moves)
-	if !(move.IsValidMove(p.moves, opponent.moves)) {
-		err = errors.New("Invalid Move")
+	// get next move
+	ch := make(chan position.Position)
+	go func() {
+		// Handle panics
+		defer func() {
+			if r := recover(); r != nil {
+				err = errors.New("Panicked")
+				ch <- position.Null
+			}
+		}()
+
+		move := p.strategy(p.moves, opponent.moves)
+		if !(move.IsValidMove(p.moves, opponent.moves)) {
+			err = errors.New("Invalid Move")
+		}
+		ch <- move
+	}()
+
+	select {
+	case move := <-ch:
+		// a read from ch has occurred
+		p.moves = append(p.moves, move)
+	case <-timeout:
+		err = errors.New("Timeout")
 	}
 
-	p.moves = append(p.moves, move)
 	return err
 }
