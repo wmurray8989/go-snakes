@@ -13,8 +13,8 @@ const cellSize = 10
 // NextMove returns the player's next move
 func (p *Player) NextMove(opponent Player) (err error) {
 	// Check if no moves are available
-	currentPosition := p.moves[len(p.moves)-1]
-	validMoves := currentPosition.GetValidMoves(p.moves, opponent.moves)
+	currentPosition := p.Moves[len(p.Moves)-1]
+	validMoves := currentPosition.GetValidMoves(p.Moves, opponent.Moves)
 	if len(validMoves) == 0 {
 		return errors.New("No Valid Moves")
 	}
@@ -37,8 +37,8 @@ func (p *Player) NextMove(opponent Player) (err error) {
 			}
 		}()
 
-		move := p.strategy(p.moves, opponent.moves)
-		if !(move.IsValidMove(p.moves, opponent.moves)) {
+		move := p.Strategy(p.Moves, opponent.Moves)
+		if !(move.IsValidMove(p.Moves, opponent.Moves)) {
 			err = errors.New("Invalid Move")
 		}
 		ch <- move
@@ -47,7 +47,7 @@ func (p *Player) NextMove(opponent Player) (err error) {
 	select {
 	case move := <-ch:
 		// a read from ch has occurred
-		p.moves = append(p.moves, move)
+		p.Moves = append(p.Moves, move)
 	case <-timeout:
 		err = errors.New("Timeout")
 	}

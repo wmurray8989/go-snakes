@@ -7,7 +7,6 @@ import (
 
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/wmurray8989/go-snakes/match"
-	"github.com/wmurray8989/go-snakes/player"
 	"github.com/wmurray8989/go-snakes/snakes"
 )
 
@@ -37,31 +36,7 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	player1 := player.NewPlayer("Spiral In", "NULL", snakes.SpiralIn, sdl.Color{
-		R: 255,
-		G: 0,
-		B: 0,
-		A: 255,
-	}, sdl.Color{
-		R: 255,
-		G: 255,
-		B: 255,
-		A: 255,
-	})
-
-	player2 := player.NewPlayer("Spiral Out", "NULL", snakes.SpiralOut, sdl.Color{
-		R: 0,
-		G: 255,
-		B: 0,
-		A: 255,
-	}, sdl.Color{
-		R: 255,
-		G: 255,
-		B: 255,
-		A: 255,
-	})
-
-	var activeMatch = match.NewMatch(player1, player2)
+	var activeMatch = match.NewMatch(snakes.SpiralIn, snakes.SpiralOut)
 
 	fullscreen := false
 	running := true

@@ -12,7 +12,7 @@ func (p *Player) Render(renderer *sdl.Renderer) {
 	const cellSize = 10
 
 	// invert y positions
-	positions := append([]position.Position(nil), p.moves...)
+	positions := append([]position.Position(nil), p.Moves...)
 	for i, position := range positions {
 		positions[i].Y = 49 - position.Y
 	}
@@ -38,19 +38,19 @@ func (p *Player) Render(renderer *sdl.Renderer) {
 
 	// draw main body of snake
 	renderer.SetDrawColor(
-		p.colorPrimary.R,
-		p.colorPrimary.G,
-		p.colorPrimary.B,
-		p.colorPrimary.A,
+		p.ColorPrimary.R,
+		p.ColorPrimary.G,
+		p.ColorPrimary.B,
+		p.ColorPrimary.A,
 	)
 	renderer.FillRects(rects)
 
 	// draw snake spine
 	renderer.SetDrawColor(
-		p.colorSecondary.R,
-		p.colorSecondary.G,
-		p.colorSecondary.B,
-		p.colorSecondary.A,
+		p.ColorSecondary.R,
+		p.ColorSecondary.G,
+		p.ColorSecondary.B,
+		p.ColorSecondary.A,
 	)
 	renderer.DrawLines(points)
 
@@ -61,6 +61,6 @@ func (p *Player) Render(renderer *sdl.Renderer) {
 		int32(lastPosition.X)*cellSize+cellSize/2,
 		int32(lastPosition.Y)*cellSize+cellSize/2,
 		cellSize/2,
-		p.colorSecondary,
+		p.ColorSecondary,
 	)
 }
