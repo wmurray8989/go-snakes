@@ -9,7 +9,7 @@ import (
 // Render renders the match
 func (p *Player) Render(renderer *sdl.Renderer) {
 	const sideLength = 50
-	const cellSize = 10
+	const cellSize = 20
 
 	// invert y positions
 	positions := append([]position.Position(nil), p.Moves...)

@@ -22,11 +22,11 @@ func (m *Match) Render(renderer *sdl.Renderer) {
 	)
 	renderer.FillRect(&sdl.Rect{
 		X: 0,
-		Y: 500,
-		W: 250,
+		Y: 1000,
+		W: 500,
 		H: 30,
 	})
-	gfx.StringColor(renderer, 10, 510, fmt.Sprintf("%s: %d", m.player1.Name, m.player1Points), m.player1.ColorSecondary)
+	gfx.StringColor(renderer, 10, 1010, fmt.Sprintf("%s: %d", m.player1.Name, m.player1Points), m.player1.ColorSecondary)
 
 	// Draw Points player 2
 	renderer.SetDrawColor(
@@ -36,15 +36,31 @@ func (m *Match) Render(renderer *sdl.Renderer) {
 		m.player2.ColorPrimary.A,
 	)
 	renderer.FillRect(&sdl.Rect{
-		X: 250,
-		Y: 500,
-		W: 250,
+		X: 500,
+		Y: 1000,
+		W: 500,
 		H: 30,
 	})
-	gfx.StringColor(renderer, 260, 510, fmt.Sprintf("%s: %d", m.player2.Name, m.player2Points), m.player2.ColorSecondary)
+	gfx.StringColor(renderer, 510, 1010, fmt.Sprintf("%s: %d", m.player2.Name, m.player2Points), m.player2.ColorSecondary)
 
 	// Draw time remaining
-	white := sdl.Color{R: 255, B: 255, G: 255, A: 255}
-	gfx.StringColor(renderer, 200, 575, fmt.Sprintf("Time remaining: %f", m.timeRemaining.Seconds()), white)
+	renderer.SetDrawColor(
+		200,
+		200,
+		200,
+		255,
+	)
+	renderer.FillRect(&sdl.Rect{
+		X: 0,
+		Y: 1030,
+		W: 1920,
+		H: 50,
+	})
+	gfx.StringColor(renderer, 10, 1040, fmt.Sprintf("Time remaining: %f", m.timeRemaining.Seconds()), sdl.Color{
+		R: 0,
+		B: 0,
+		G: 0,
+		A: 255,
+	})
 
 }

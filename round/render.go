@@ -8,7 +8,7 @@ import (
 // Render renders the round
 func (p *Round) Render(renderer *sdl.Renderer) {
 	const sideLength = 50
-	const cellSize = 10
+	const cellSize = 20
 
 	// draw players
 	p.player1.Render(renderer)
