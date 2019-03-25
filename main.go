@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
-	"github.com/wmurray8989/go-snakes/match"
 	"github.com/wmurray8989/go-snakes/snakes"
+	"github.com/wmurray8989/go-snakes/tournament"
 )
 
 var winTitle = "Go Snakes"
@@ -36,7 +36,7 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	var activeMatch = match.NewMatch(snakes.SpiralIn, snakes.SpiralOut)
+	var activeTournament = tournament.NewTournament(snakes.SpiralIn, snakes.SpiralOut)
 
 	fullscreen := false
 	running := true
@@ -75,12 +75,12 @@ func run() int {
 
 		if time.Since(lastTime) > (time.Second / time.Duration(ticksPerSecond)) {
 			// Logic
-			activeMatch.Update()
+			activeTournament.Update()
 
 			// Render
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
-			activeMatch.Render(renderer)
+			activeTournament.Render(renderer)
 			renderer.Present()
 
 			lastTime = time.Now().UTC()
