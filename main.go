@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/player"
 	"github.com/wmurray8989/go-snakes/snakes"
 	"github.com/wmurray8989/go-snakes/tournament"
 )
 
 var winTitle = "Go Snakes"
-var winWidth, winHeight int32 = 1000, 700
+var winWidth, winHeight int32 = 1920, 1080
 
 func run() int {
 	var window *sdl.Window
@@ -36,7 +37,40 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
-	var activeTournament = tournament.NewTournament(snakes.SpiralIn, snakes.SpiralOut)
+	var activeTournament = tournament.NewTournament([32]player.Player{
+		snakes.SpiralIn,
+		snakes.SpiralOut,
+		snakes.Random,
+		snakes.Panicker,
+		snakes.Seeker,
+		snakes.Random,
+		snakes.Sleeper,
+		snakes.Random,
+		snakes.SpiralIn,
+		snakes.SpiralOut,
+		snakes.Random,
+		snakes.Panicker,
+		snakes.Seeker,
+		snakes.Random,
+		snakes.Sleeper,
+		snakes.Random,
+		snakes.SpiralIn,
+		snakes.SpiralOut,
+		snakes.Random,
+		snakes.Panicker,
+		snakes.Seeker,
+		snakes.Random,
+		snakes.Sleeper,
+		snakes.Random,
+		snakes.SpiralIn,
+		snakes.SpiralOut,
+		snakes.Random,
+		snakes.Panicker,
+		snakes.Seeker,
+		snakes.Random,
+		snakes.Sleeper,
+		snakes.Random,
+	})
 
 	fullscreen := false
 	running := true
