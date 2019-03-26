@@ -40,11 +40,11 @@ func run() int {
 	// renderer.SetLogicalSize(winWidth, winHeight)
 
 	var activeTournament = tournament.NewTournament([32]player.Player{
-		snakes.SpiralIn,
 		snakes.SpiralOut,
-		snakes.Random,
-		snakes.Panicker,
 		snakes.Seeker,
+		snakes.SpiralIn,
+		snakes.Random,
+		snakes.Random,
 		snakes.Random,
 		snakes.Sleeper,
 		snakes.Random,
@@ -77,7 +77,7 @@ func run() int {
 	fullscreen := false
 	running := true
 	lastTime := time.Time{}
-	ticksPerSecond := 1000
+	ticksPerSecond := 50
 	for running {
 
 		// Events
