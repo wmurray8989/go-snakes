@@ -20,18 +20,44 @@ func (t *Tournament) Render(renderer *sdl.Renderer, globalAssets *assets.Assets)
 	renderBracketColumn(renderer, globalAssets, t.series4[0:len(t.series4)], 4, 3)
 	renderBracketColumn(renderer, globalAssets, t.series2[0:len(t.series2)], 2, 4)
 	renderBracketColumn(renderer, globalAssets, []player.Player{t.champion}, 1, 5)
+
+	// Draw bracket boarders
+	renderer.SetDrawColor(
+		200,
+		200,
+		200,
+		255,
+	)
+	renderer.FillRect(&sdl.Rect{
+		X: 1000,
+		Y: 0,
+		W: 20,
+		H: 1080,
+	})
+	renderer.FillRect(&sdl.Rect{
+		X: 1000,
+		Y: 0,
+		W: 920,
+		H: 12,
+	})
+	renderer.FillRect(&sdl.Rect{
+		X: 1000,
+		Y: 1068,
+		W: 920,
+		H: 12,
+	})
 }
 
 func renderBracketColumn(renderer *sdl.Renderer, globalAssets *assets.Assets, players []player.Player, count int, columnIndex int) {
-	height := 1030 / count
+	height := 1056 / count
 	for index, player := range players {
 		renderName(
 			renderer,
 			globalAssets,
 			player,
-			int32(1000+columnIndex*153),
-			int32(height*index),
-			153,
+			int32(1020+columnIndex*150),
+			int32(height*index+12),
+			150,
 			int32(height),
 		)
 	}

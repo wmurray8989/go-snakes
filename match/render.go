@@ -83,7 +83,7 @@ func (m *Match) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 	renderer.FillRect(&sdl.Rect{
 		X: 0,
 		Y: 1030,
-		W: 1920,
+		W: 1000,
 		H: 50,
 	})
 
