@@ -89,16 +89,6 @@ func renderName(renderer *sdl.Renderer, globalAssets *assets.Assets, player play
 		H: H,
 	})
 
-	// assets.DrawText(
-	// 	renderer,
-	// 	globalAssets.Font36,
-	// 	fmt.Sprintf("%s", player.Name),
-	// 	X+10,
-	// 	Y+10,
-	// 	player.ColorSecondary,
-	// )
-
-	println(player.Name)
 	if player.Name != "" {
 		assets.DrawText(
 			renderer,
@@ -109,6 +99,4 @@ func renderName(renderer *sdl.Renderer, globalAssets *assets.Assets, player play
 			player.ColorSecondary,
 		)
 	}
-
-	// gfx.StringColor(renderer, X+10, int32(10+Y), fmt.Sprintf("%s", player.Name), player.ColorSecondary)
 }
