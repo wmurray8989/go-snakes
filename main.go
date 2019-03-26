@@ -37,6 +37,8 @@ func run() int {
 	}
 	defer renderer.Destroy()
 
+	// renderer.SetLogicalSize(winWidth, winHeight)
+
 	var activeTournament = tournament.NewTournament([32]player.Player{
 		snakes.SpiralIn,
 		snakes.SpiralOut,

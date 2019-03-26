@@ -14,7 +14,7 @@ func (m *Match) Update() {
 
 	m.activeRound.Update()
 
-	m.timeRemaining = time.Second*20 - time.Since(m.startTime)
+	m.timeRemaining = time.Minute*2 - time.Since(m.startTime)
 
 	roundStatus := m.activeRound.GetStatus()
 	if roundStatus != round.InProgress {

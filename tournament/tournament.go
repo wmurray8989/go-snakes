@@ -14,6 +14,7 @@ type Tournament struct {
 	series2            [2]player.Player
 	champion           player.Player
 	activeMatch        match.Match
+	activeSeriesIndex  int
 	activePlayer1Index int
 	activePlayer2Index int
 }

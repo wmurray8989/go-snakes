@@ -9,6 +9,7 @@ import (
 func NewTournament(players [32]player.Player) Tournament {
 	return Tournament{
 		series32:           players,
+		activeSeriesIndex:  0,
 		activePlayer1Index: 0,
 		activePlayer2Index: 1,
 		activeMatch:        match.NewMatch(players[0], players[1]),

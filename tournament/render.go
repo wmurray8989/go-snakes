@@ -19,6 +19,7 @@ func (t *Tournament) Render(renderer *sdl.Renderer) {
 	renderBracketColumn(renderer, t.series8[0:len(t.series8)], 8, 2)
 	renderBracketColumn(renderer, t.series4[0:len(t.series4)], 4, 3)
 	renderBracketColumn(renderer, t.series2[0:len(t.series2)], 2, 4)
+	renderBracketColumn(renderer, []player.Player{t.champion}, 1, 5)
 }
 
 func renderBracketColumn(renderer *sdl.Renderer, players []player.Player, count int, columnIndex int) {
@@ -48,5 +49,17 @@ func renderName(renderer *sdl.Renderer, player player.Player, X int32, Y int32, 
 		W: W,
 		H: H,
 	})
-	gfx.StringColor(renderer, 1010, int32(10+Y), fmt.Sprintf("%s", player.Name), player.ColorSecondary)
+	renderer.SetDrawColor(
+		100,
+		100,
+		100,
+		100,
+	)
+	renderer.DrawRect(&sdl.Rect{
+		X: X,
+		Y: Y,
+		W: W,
+		H: H,
+	})
+	gfx.StringColor(renderer, X+10, int32(10+Y), fmt.Sprintf("%s", player.Name), player.ColorSecondary)
 }
