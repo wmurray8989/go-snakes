@@ -74,7 +74,9 @@ func run() int {
 		snakes.Random,
 	})
 
-	fullscreen := false
+	fullscreen := true
+	window.SetFullscreen(sdl.WINDOW_FULLSCREEN_DESKTOP)
+
 	running := true
 	lastTime := time.Time{}
 	ticksPerSecond := 50
