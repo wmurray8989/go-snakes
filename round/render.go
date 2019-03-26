@@ -3,16 +3,17 @@ package round
 import (
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/assets"
 )
 
 // Render renders the round
-func (p *Round) Render(renderer *sdl.Renderer) {
+func (p *Round) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 	const sideLength = 50
 	const cellSize = 20
 
 	// draw players
-	p.player1.Render(renderer)
-	p.player2.Render(renderer)
+	p.player1.Render(renderer, globalAssets)
+	p.player2.Render(renderer, globalAssets)
 
 	// draw grid
 	for x := int32(0); x < sideLength*cellSize; x = x + cellSize {

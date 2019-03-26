@@ -3,11 +3,12 @@ package player
 import (
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/assets"
 	"github.com/wmurray8989/go-snakes/position"
 )
 
 // Render renders the match
-func (p *Player) Render(renderer *sdl.Renderer) {
+func (p *Player) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 	const sideLength = 50
 	const cellSize = 20
 

@@ -3,15 +3,15 @@ package match
 import (
 	"fmt"
 
-	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/assets"
 )
 
 // Render renders the match
-func (m *Match) Render(renderer *sdl.Renderer) {
+func (m *Match) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 
 	// render active round
-	m.activeRound.Render(renderer)
+	m.activeRound.Render(renderer, globalAssets)
 
 	// Draw Points player 1
 	renderer.SetDrawColor(
@@ -26,7 +26,22 @@ func (m *Match) Render(renderer *sdl.Renderer) {
 		W: 500,
 		H: 30,
 	})
-	gfx.StringColor(renderer, 10, 1010, fmt.Sprintf("%s: %d", m.player1.Name, m.player1Points), m.player1.ColorSecondary)
+	assets.DrawText(
+		renderer,
+		globalAssets.Font30,
+		fmt.Sprintf("%s", m.player1.Name),
+		10,
+		1000,
+		m.player1.ColorSecondary,
+	)
+	assets.DrawText(
+		renderer,
+		globalAssets.Font30,
+		fmt.Sprintf("%d", m.player1Points),
+		350,
+		1000,
+		m.player1.ColorSecondary,
+	)
 
 	// Draw Points player 2
 	renderer.SetDrawColor(
@@ -41,7 +56,22 @@ func (m *Match) Render(renderer *sdl.Renderer) {
 		W: 500,
 		H: 30,
 	})
-	gfx.StringColor(renderer, 510, 1010, fmt.Sprintf("%s: %d", m.player2.Name, m.player2Points), m.player2.ColorSecondary)
+	assets.DrawText(
+		renderer,
+		globalAssets.Font30,
+		fmt.Sprintf("%s", m.player2.Name),
+		510,
+		1000,
+		m.player2.ColorSecondary,
+	)
+	assets.DrawText(
+		renderer,
+		globalAssets.Font30,
+		fmt.Sprintf("%d", m.player2Points),
+		850,
+		1000,
+		m.player2.ColorSecondary,
+	)
 
 	// Draw time remaining
 	renderer.SetDrawColor(
@@ -56,11 +86,18 @@ func (m *Match) Render(renderer *sdl.Renderer) {
 		W: 1920,
 		H: 50,
 	})
-	gfx.StringColor(renderer, 10, 1040, fmt.Sprintf("Time remaining: %f", m.timeRemaining.Seconds()), sdl.Color{
-		R: 0,
-		B: 0,
-		G: 0,
-		A: 255,
-	})
 
+	assets.DrawText(
+		renderer,
+		globalAssets.Font36,
+		fmt.Sprintf("Time remaining: %f", m.timeRemaining.Seconds()),
+		10,
+		1040,
+		sdl.Color{
+			R: 0,
+			B: 0,
+			G: 0,
+			A: 255,
+		},
+	)
 }

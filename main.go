@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/veandco/go-sdl2/ttf"
+	"github.com/wmurray8989/go-snakes/assets"
 	"github.com/wmurray8989/go-snakes/player"
 	"github.com/wmurray8989/go-snakes/snakes"
 	"github.com/wmurray8989/go-snakes/tournament"
@@ -36,6 +38,19 @@ func run() int {
 		return 3 // don't use os.Exit(3); otherwise, previous deferred calls will never run
 	}
 	defer renderer.Destroy()
+
+	if err := ttf.Init(); err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to initialize TTF: %s\n", err)
+		return 5
+	}
+	defer ttf.Quit()
+
+	globalAssets, err := assets.NewAssets()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to load assets: %s\n", err)
+		return 6
+	}
+	defer globalAssets.Close()
 
 	// renderer.SetLogicalSize(winWidth, winHeight)
 
@@ -118,7 +133,7 @@ func run() int {
 			// Render
 			renderer.SetDrawColor(0, 0, 0, 255)
 			renderer.Clear()
-			activeTournament.Render(renderer)
+			activeTournament.Render(renderer, globalAssets)
 			renderer.Present()
 
 			lastTime = time.Now().UTC()

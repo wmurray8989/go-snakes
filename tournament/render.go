@@ -5,13 +5,14 @@ import (
 
 	"github.com/veandco/go-sdl2/gfx"
 	"github.com/veandco/go-sdl2/sdl"
+	"github.com/wmurray8989/go-snakes/assets"
 	"github.com/wmurray8989/go-snakes/player"
 )
 
 // Render renders the tournament
-func (t *Tournament) Render(renderer *sdl.Renderer) {
+func (t *Tournament) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 	// render active match
-	t.activeMatch.Render(renderer)
+	t.activeMatch.Render(renderer, globalAssets)
 
 	// render bracket
 	renderBracketColumn(renderer, t.series32[0:len(t.series32)], 32, 0)
