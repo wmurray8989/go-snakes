@@ -52,6 +52,7 @@ func run() int {
 	}
 	defer globalAssets.Close()
 
+	window.SetResizable(true)
 	renderer.SetLogicalSize(winWidth, winHeight)
 
 	var activeTournament = tournament.NewTournament([32]player.Player{
