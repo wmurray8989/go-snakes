@@ -7,8 +7,12 @@ import (
 
 // DrawText draws text to the renderer
 func DrawText(renderer *sdl.Renderer, font *ttf.Font, text string, X int32, Y int32, color sdl.Color) {
-	surface, _ := font.RenderUTF8Solid(text, color)
+	surface, _ := font.RenderUTF8Blended(text, color)
+	defer surface.Free()
+
 	texture, _ := renderer.CreateTextureFromSurface(surface)
+	defer texture.Destroy()
+
 	renderer.Copy(texture, &sdl.Rect{
 		X: 0,
 		Y: 0,

@@ -89,10 +89,10 @@ func (m *Match) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 
 	assets.DrawText(
 		renderer,
-		globalAssets.Font36,
-		fmt.Sprintf("Time remaining: %f", m.timeRemaining.Seconds()),
-		10,
-		1040,
+		globalAssets.Font50,
+		fmt.Sprintf("Time remaining: %.1f", m.timeRemaining.Seconds()),
+		250,
+		1030,
 		sdl.Color{
 			R: 0,
 			B: 0,
