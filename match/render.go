@@ -87,17 +87,29 @@ func (m *Match) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 		H: 50,
 	})
 
+	var timeRemainingColor sdl.Color
+	if m.timeRemaining.Seconds() > 0 {
+		timeRemainingColor = sdl.Color{
+			R: 0,
+			B: 0,
+			G: 0,
+			A: 255,
+		}
+	} else {
+		timeRemainingColor = sdl.Color{
+			R: 255,
+			B: 0,
+			G: 0,
+			A: 255,
+		}
+	}
+
 	assets.DrawText(
 		renderer,
 		globalAssets.Font50,
 		fmt.Sprintf("Time remaining: %.1f", m.timeRemaining.Seconds()),
 		250,
 		1030,
-		sdl.Color{
-			R: 0,
-			B: 0,
-			G: 0,
-			A: 255,
-		},
+		timeRemainingColor,
 	)
 }
