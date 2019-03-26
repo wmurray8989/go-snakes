@@ -52,7 +52,7 @@ func run() int {
 	}
 	defer globalAssets.Close()
 
-	// renderer.SetLogicalSize(winWidth, winHeight)
+	renderer.SetLogicalSize(winWidth, winHeight)
 
 	var activeTournament = tournament.NewTournament([32]player.Player{
 		snakes.SpiralOut,
