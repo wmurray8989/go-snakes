@@ -2,14 +2,15 @@ package match
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
 	"github.com/wmurray8989/go-snakes/assets"
 )
 
 // Render renders the match
 func (m *Match) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
-
 	// render active round
 	m.activeRound.Render(renderer, globalAssets)
 
@@ -112,4 +113,38 @@ func (m *Match) Render(renderer *sdl.Renderer, globalAssets *assets.Assets) {
 		1030,
 		timeRemainingColor,
 	)
+
+	// save a screenshot
+	if m.roundEnd == true {
+		screenshotSurface, _ := sdl.CreateRGBSurface(
+			0,
+			1000,
+			1000,
+			32,
+			0x00ff0000,
+			0x0000ff00,
+			0x000000ff,
+			0xff000000,
+		)
+		defer screenshotSurface.Free()
+		renderer.ReadPixels(
+			&sdl.Rect{
+				X: 0,
+				Y: 0,
+				W: 1000,
+				H: 1000,
+			},
+			screenshotSurface.Format.Format,
+			screenshotSurface.Data(),
+			int(screenshotSurface.Pitch),
+		)
+		timestamp := time.Now().UnixNano()
+
+		img.SavePNG(
+			screenshotSurface,
+			fmt.Sprintf("%s vs %s %d.png", m.player1.Name, m.player2.Name, timestamp),
+		)
+		m.roundEnd = false
+	}
+
 }

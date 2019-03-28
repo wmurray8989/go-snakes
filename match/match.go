@@ -9,14 +9,16 @@ import (
 
 // Match is a timed series of rounds
 type Match struct {
-	status        Status
-	startTime     time.Time
-	timeRemaining time.Duration
-	player1       player.Player
-	player2       player.Player
-	player1Points int
-	player2Points int
-	activeRound   round.Round
+	status          Status
+	startTime       time.Time
+	timeRemaining   time.Duration
+	player1         player.Player
+	player2         player.Player
+	player1Points   int
+	player2Points   int
+	activeRound     round.Round
+	roundEnd        bool
+	lastRoundStatus round.Status
 }
 
 // Status is the current state of the match

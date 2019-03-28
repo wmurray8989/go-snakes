@@ -17,7 +17,11 @@ func (m *Match) Update() {
 	m.timeRemaining = time.Minute*2 - time.Since(m.startTime)
 
 	roundStatus := m.activeRound.GetStatus()
-	if roundStatus != round.InProgress {
+	if roundStatus != round.InProgress && m.lastRoundStatus == round.InProgress {
+		m.roundEnd = true
+	}
+
+	if roundStatus != round.InProgress && m.roundEnd == false {
 		// Increment winning player's points
 		switch roundStatus {
 		case round.WinnerSnake1:
@@ -40,4 +44,6 @@ func (m *Match) Update() {
 			}
 		}
 	}
+
+	m.lastRoundStatus = roundStatus
 }
